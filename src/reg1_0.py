@@ -1,0 +1,12 @@
+ADDR_ID               = 3
+ADDR_BAUD             = 4
+ADDR_GOAL_POS	      = 30
+ADDR_MOV_SPEED	      = 32
+ADDR_TORQUE_ENABLE    = 24
+ADDR_TORQUE_LIMIT     = 34
+ADDR_PRES_POS	      = 36
+ADDR_PRES_VEL	      = 38
+ADDR_PRES_VOL	      = 42
+ADDR_PRES_TEMP	      = 43
+ADDR_MOVING	          = 46
+ADDR_MAX_TORQUE	      = 14
