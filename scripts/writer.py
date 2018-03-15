@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-from libpynamixel.dynamixel1_0 import Dynamixel
-from libpynamixel.ports import *
+from pynamixel.dynamixel1_0 import Dynamixel
+from pynamixel.ports import *
 import time
 import rospy
 from pynamixel.msg import Actuation
