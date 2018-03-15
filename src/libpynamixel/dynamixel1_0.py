@@ -17,7 +17,7 @@ class Dynamixel(object):
         self.protocol = protocol
         self.resolution = MX_RESOLUTION# MX-28 Resolution
         self.groupwrite = dxl.groupSyncWrite(self.port, self.protocol, ADDR_GOAL_POS, LEN_GOAL_POSITION)
-        # self.groupread = dxl.groupSyncRead(self.port, self.protocol, ADDR_PRES_POS, LEN_PRESENT_POSITION)
+        self.groupspeed = dxl.groupSyncWrite(self.port, self.protocol, ADDR_MOV_SPEED, LEN_MOV_SPEED)
         dxl.packetHandler()
         self.connect()
 
@@ -61,11 +61,20 @@ class Dynamixel(object):
         return degree
 
     def set_moving_speed(self, vel_dict):
-	#print(vel_dict)
-	for id,vel in vel_dict.items():
-            dxl.write2ByteTxRx(self.port, self.protocol, id, ADDR_MOV_SPEED, vel)
-            self.check_result()
-            self.check_error()
+	for id,vel in vel_dict.items():  
+            # Add dxl velocity value to the Syncwrite storage
+            addparam_result = ctypes.c_ubyte(dxl.groupSyncWriteAddParam(self.groupspeed, id, vel, LEN_MOV_SPEED)).value
+            if addparam_result != 1:
+                print("[ID:%03d] groupSyncWrite addparam failed" % (id))
+                quit()
+
+        # Syncwrite goal position
+        dxl.groupSyncWriteTxPacket(self.groupwrite)
+        self.check_result()
+
+        # Clear syncwrite parameter storage
+        dxl.groupSyncWriteClearParam(self.groupwrite)
+        self.check_result()
 
     def is_moving(self,ids):
         mov = {}
