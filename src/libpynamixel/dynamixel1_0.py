@@ -69,11 +69,11 @@ class Dynamixel(object):
                 quit()
 
         # Syncwrite goal position
-        dxl.groupSyncWriteTxPacket(self.groupwrite)
+        dxl.groupSyncWriteTxPacket(self.groupspeed)
         self.check_result()
 
         # Clear syncwrite parameter storage
-        dxl.groupSyncWriteClearParam(self.groupwrite)
+        dxl.groupSyncWriteClearParam(self.groupspeed)
         self.check_result()
 
     def is_moving(self,ids):
