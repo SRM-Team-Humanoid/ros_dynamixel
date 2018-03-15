@@ -5,23 +5,25 @@ import time
 import rospy
 from pynamixel.msg import Actuation
 
-def callback(data):
+def actuate(data):
     global dxl_io
     ids = map(int,data.ids)
     angles = data.angles
     speeds = map(int,data.speeds)
     rospy.loginfo(dict(zip(ids,angles)))
-    dxl_io.set_moving_speed(dict(zip(ids,speeds)))
-    dxl_io.write(dict(zip(ids,angles)))
-    #time.sleep(0.01)
+    if len(ids) == len(angles) and len(ids) == len(speeds):
+        pass
+        #dxl_io.set_moving_speed(dict(zip(ids,speeds)))
+        #dxl_io.write(dict(zip(ids,angles)))
+        #time.sleep(0.01)
 
-def listener():
+def start():
     rospy.init_node('writer', anonymous=True)
-    rospy.Subscriber('actuation', Actuation, callback)
+    rospy.Subscriber('actuation', Actuation, actuate)
     rospy.spin()
 
 if __name__ == '__main__': 
     #port = list_port()[0]
-    dxl_io = Dynamixel(baudrate=1000000)
-    dxl_io.connect()
-    listener()
+    #dxl_io = Dynamixel(baudrate=1000000)
+    #dxl_io.connect()
+    start()

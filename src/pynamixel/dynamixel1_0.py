@@ -16,6 +16,7 @@ class Dynamixel(object):
         self.resolution = MX_RESOLUTION# MX-28 Resolution
         self.groupwrite = dxl.groupSyncWrite(self.port, self.protocol, ADDR_GOAL_POS, LEN_GOAL_POSITION)
         self.groupspeed = dxl.groupSyncWrite(self.port, self.protocol, ADDR_MOV_SPEED, LEN_MOV_SPEED)
+        #self.groupread = dxl.groupSyncRead(self.port, self.protocol, ADDR_PRES_POS, LEN_PRESENT_POSITION)
         dxl.packetHandler()
         self.connect()
 

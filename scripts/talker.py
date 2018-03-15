@@ -9,7 +9,7 @@ def talker():
     rate = rospy.Rate(10) # 10hz
     while not rospy.is_shutdown():
         msg = Actuation()
-	ids = range(1,6)
+	ids = range(1,19)
 	msg.ids = ids
         ang = np.linspace(-20, 20, 100)
         msg.speeds = [1023 for id in ids]
