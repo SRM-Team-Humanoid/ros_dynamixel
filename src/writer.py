@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-from dynamixel1_0 import Dynamixel
-from ports import *
+from libpynamixel.dynamixel1_0 import Dynamixel
+from libpynamixel.ports import *
 import time
 import rospy
 from pynamixel.msg import Actuation
@@ -21,7 +21,7 @@ def listener():
     rospy.spin()
 
 if __name__ == '__main__': 
-    port = list_port()[0]
-    dxl_io = Dynamixel(baudrate=1000000, port=port)
+    #port = list_port()[0]
+    dxl_io = Dynamixel(baudrate=1000000)
     dxl_io.connect()
     listener()

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os, ctypes
-from registers import *
+from reg2_0 import *
 from ports import *
 from constants import *
 
