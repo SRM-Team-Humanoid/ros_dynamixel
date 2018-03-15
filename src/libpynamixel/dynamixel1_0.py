@@ -6,8 +6,6 @@ from reg1_0 import *
 from ports import *
 from constants import *
 
-os.sys.path.append('./dynamixel_functions_py')             # Path setting
-
 import dynamixel_functions as dxl
 
 class Dynamixel(object):
