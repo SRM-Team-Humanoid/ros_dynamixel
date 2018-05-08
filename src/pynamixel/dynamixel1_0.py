@@ -36,14 +36,14 @@ class Dynamixel(object):
     def check_error(self):
         error = dxl.getLastRxPacketError(self.port, self.protocol)
         if error != 0:
-            # print(dxl.getRxPacketError(self.protocol, error))
+            print(dxl.getRxPacketError(self.protocol, error))
             return False
 
 
     def check_result(self):
         comm_result = dxl.getLastTxRxResult(self.port, self.protocol)
         if comm_result != COMM_SUCCESS:
-            # print(dxl.getTxRxResult(self.protocol, comm_result))
+            print(dxl.getTxRxResult(self.protocol, comm_result))
             return False
 
 
@@ -75,21 +75,11 @@ class Dynamixel(object):
         return mov
 
     def write(self, write_dict):
-        self.set_torque_status(write_dict.keys(),1)
-
-        goal_position = 0
-
+        #self.set_torque_status(write_dict.keys(),1)
         for id,angle in write_dict.items():
             angle = self.from_degree(angle+180)
-            # print(angle)
-            self.set_torque_status([id], value=1)
-
             # Add dxl goal position value to the Syncwrite storage
             addparam_result = ctypes.c_ubyte(dxl.groupSyncWriteAddParam(self.groupwrite, id, angle, LEN_GOAL_POSITION)).value
-            if addparam_result != 1:
-                print("[ID:%03d] groupSyncWrite addparam failed" % (id))
-                quit()
-
 
         # Syncwrite goal position
         dxl.groupSyncWriteTxPacket(self.groupwrite)
@@ -98,7 +88,7 @@ class Dynamixel(object):
         # Clear syncwrite parameter storage
         dxl.groupSyncWriteClearParam(self.groupwrite)
         self.check_result()
-
+        
     def read_angle(self, ids):
         positions = []
         for id in ids:

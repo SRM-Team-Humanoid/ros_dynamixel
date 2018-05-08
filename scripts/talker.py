@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 import rospy
-from pynamixel.msg import Actuation
+from rminus3.msg import Actuation
 import numpy as np
 #from pynamixel.dynamixel1_0 import Dynamixel
 #from pynamixel.ports import *
 
 def talker():
     pub = rospy.Publisher('actuation', Actuation, queue_size=10)
-    rospy.init_node('talker', anonymous=True)
+    rospy.init_node('talker', anonymous=False)
+    rospy.set_param('debug', False)
     rate = rospy.Rate(10) # 10hz
+    #rospy.loginfo(rospy.get_param('/talker/debug'))
     #dxl_io = Dynamixel()
     while not rospy.is_shutdown():
         msg = Actuation()

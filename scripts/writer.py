@@ -3,25 +3,40 @@ from pynamixel.dynamixel1_0 import Dynamixel
 from pynamixel.ports import *
 import time
 import rospy
-from pynamixel.msg import Actuation
+from rminus3.msg import Actuation
+
+#buffer = []
 
 def actuate(data):
     global dxl_io
     ids = map(int,data.ids)
     angles = data.angles
     speeds = map(int,data.speeds)
-    rospy.loginfo(dict(zip(ids,angles)))
-    if len(ids) == len(angles) and len(ids) == len(speeds):
-        dxl_io.set_moving_speed(dict(zip(ids,speeds)))
-        dxl_io.write(dict(zip(ids,angles)))
-        #time.sleep(0.01)
+    #rospy.loginfo(data)
+    angles = list(angles)
+    #ids.extend([19])
+    #angles.extend([0.0])
+    if rospy.get_param('/writer/debug') == False:
+        #print("writing")
+        if len(ids) == len(angles) and len(ids) == len(speeds):
+            #dxl_io.set_moving_speed(dict(zip(ids,speeds)))
+            print(dict(zip(ids,angles)))
+            dxl_io.write(dict(zip(ids,angles)))
+            time.sleep(0.01)
 
 def start():
-    rospy.init_node('writer', anonymous=True)
+    rospy.init_node('writer', anonymous=False)
+    ids = range(1,19)
+    angles = [0 for id in ids]
+    dxl_io.set_torque_status(ids,1)
+    raw_input("Start?")
+    dxl_io.write(dict(zip(ids,angles)))
+    print("ready...")
     rospy.Subscriber('actuation', Actuation, actuate)
     rospy.spin()
 
 if __name__ == '__main__': 
     port = list_port()[0]
+    print(port)
     dxl_io = Dynamixel(baudrate=1000000, port=port)
     start()
