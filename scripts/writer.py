@@ -3,7 +3,7 @@ from pynamixel.dynamixel1_0 import Dynamixel
 from pynamixel.ports import *
 import time
 import rospy
-from rminus3.msg import Actuation
+from pynamixel.msg import Actuation
 
 #buffer = []
 
@@ -22,16 +22,20 @@ def actuate(data):
             #dxl_io.set_moving_speed(dict(zip(ids,speeds)))
             print(dict(zip(ids,angles)))
             dxl_io.write(dict(zip(ids,angles)))
-            time.sleep(0.01)
+            #time.sleep(0.01)
+    else:
+        angles = [round(i,2) for i in angles]    
+        print(dict(zip(ids,angles)))
+    
 
 def start():
     rospy.init_node('writer', anonymous=False)
     ids = range(1,19)
     angles = [0 for id in ids]
     dxl_io.set_torque_status(ids,1)
-    raw_input("Start?")
+    raw_input("Init ?")
     dxl_io.write(dict(zip(ids,angles)))
-    print("ready...")
+    raw_input("Start ?")
     rospy.Subscriber('actuation', Actuation, actuate)
     rospy.spin()
 
