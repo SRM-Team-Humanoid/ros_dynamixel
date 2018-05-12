@@ -1,4 +1,4 @@
-import dynamixel1_0
+import protocol1_0
 import dynamixel2_0
 import ports
 import dynamixel_functions

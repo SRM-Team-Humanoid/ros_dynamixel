@@ -15,7 +15,8 @@ class Dynamixel(object):
         self.baudrate = baudrate
         self.port = dxl.portHandler(port.encode('utf-8'))
         self.protocol = protocol
-        self.resolution = MX_RESOLUTION# MX-28 Resolution
+        self.mx_res = MX_RESOLUTION # MX-28 Resolution
+        self.fsr_res = FSR_RESOLUTION 
         self.groupwrite = dxl.groupSyncWrite(self.port, self.protocol, ADDR_GOAL_POS, LEN_GOAL_POSITION)
         # self.groupspeed = dxl.groupSyncWrite(self.port, self.protocol, ADDR_MOV_SPEED, LEN_MOV_SPEED)
         # self.groupread = dxl.groupSyncRead(self.port, self.protocol, ADDR_PRES_POS, LEN_PRESENT_POSITION)
@@ -54,11 +55,11 @@ class Dynamixel(object):
             self.check_error()
 
     def to_degree(self, value):
-        angle = int(value*self.resolution)
+        angle = int(value*self.mx_res)
         return angle
 
     def from_degree(self, angle):
-        degree = int(float(angle)/self.resolution)
+        degree = int(float(angle)/self.mx_res)
         return degree
 
     def set_moving_speed(self, vel_dict):
@@ -97,4 +98,27 @@ class Dynamixel(object):
             present_position = self.to_degree(present_position)-180
             positions.append(present_position)
         return dict(zip(ids,positions))
+    
+    def to_newton(self,value):
+        newton = float(value)*self.fsr_res
+        return newton    
+
+    def get_fsr(self, foot):
+        id_dic = {'left':112,'right':111}
+        id = id_dic[foot]
+        fsr_reading = {'1':0, '2':0, '3':0, '4':0, 'x':0, 'y':0}
+        fsr_reg1 = {'1':ADDR_FSR_1, '2':ADDR_FSR_2, '3':ADDR_FSR_3, '4':ADDR_FSR_4}
+        fsr_reg2 = {'x':ADDR_FSR_X, 'y':ADDR_FSR_Y}
+        
+        for reg in fsr_reg1.keys():
+            fsr_reading[reg] = self.to_newton(dxl.read2ByteTxRx(self.port, self.protocol, id, fsr_reg1[reg]))
+            self.check_result()
+            self.check_error()
+        for reg in fsr_reg2.keys():
+            fsr_reading[reg] = self.to_newton(dxl.read1ByteTxRx(self.port, self.protocol, id, fsr_reg2[reg]))
+            self.check_result()
+            self.check_error()
+        
+        return fsr_reading 
+    
 
