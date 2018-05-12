@@ -115,7 +115,7 @@ class Dynamixel(object):
             self.check_result()
             self.check_error()
         for reg in fsr_reg2.keys():
-            fsr_reading[reg] = self.to_newton(dxl.read1ByteTxRx(self.port, self.protocol, id, fsr_reg2[reg]))
+            fsr_reading[reg] = dxl.read1ByteTxRx(self.port, self.protocol, id, fsr_reg2[reg])
             self.check_result()
             self.check_error()
         
