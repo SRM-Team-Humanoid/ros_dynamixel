@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from pynamixel.dynamixel1_0 import Dynamixel
+from pynamixel.protocol1_0 import Dynamixel
 from pynamixel.ports import *
 import time
 import rospy
