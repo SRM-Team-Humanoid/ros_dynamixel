@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from pynamixel.protocol1_0 import Dynamixel
+from pynamixel.protocol1_0 import IO
 from pynamixel.ports import *
 import time
 import rospy
@@ -42,5 +42,5 @@ def start():
 if __name__ == '__main__': 
     port = list_port()[0]
     print(port)
-    dxl_io = Dynamixel(baudrate=1000000, port=port)
+    dxl_io = IO(baudrate=1000000, port=port)
     start()

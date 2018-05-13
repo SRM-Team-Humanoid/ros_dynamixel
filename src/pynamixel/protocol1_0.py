@@ -10,7 +10,7 @@ os.sys.path.append('./dynamixel_functions_py')             # Path setting
 
 import dynamixel_functions as dxl
 
-class Dynamixel(object):
+class IO(object):
     def __init__(self, baudrate = 1000000, port = '/dev/ttyUSB0', protocol = 1):
         self.baudrate = baudrate
         self.port = dxl.portHandler(port.encode('utf-8'))
