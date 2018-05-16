@@ -10,7 +10,7 @@ os.sys.path.append('./dynamixel_functions_py')             # Path setting
 
 import dynamixel_functions as dxl
 
-class IO(object):
+class Dxl_IO(object):
     def __init__(self, baudrate = 1000000, port = '/dev/ttyUSB0', protocol = 1):
         self.baudrate = baudrate
         self.port = dxl.portHandler(port.encode('utf-8'))
@@ -103,7 +103,7 @@ class IO(object):
         newton = float(value)*self.fsr_res
         return newton    
 
-    def get_fsr(self, foot):
+    def get_fsr_readings(self, foot):
         id_dic = {'left':111,'right':112}
         id = id_dic[foot]
         #fsr_reading = {'1':0, '2':0, '3':0, '4':0, 'x':0, 'y':0}

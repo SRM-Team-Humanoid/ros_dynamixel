@@ -2,7 +2,7 @@
 import rospy
 from rminus3.msg import Actuation
 import numpy as np
-from pynamixel.protocol1_0 import IO
+from pynamixel.protocol1_0 import Dxl_IO
 from pynamixel.ports import *
 
 def talker():
@@ -11,7 +11,7 @@ def talker():
     rospy.set_param('debug', False)
     rate = rospy.Rate(10) # 10hz
     #rospy.loginfo(rospy.get_param('/talker/debug'))
-    dxl_io = IO(port='/dev/ttyUSB1', baudrate=1000000)
+    dxl_io = Dxl_IO(port='/dev/ttyUSB1', baudrate=1000000)
     while not rospy.is_shutdown():
         #msg = Actuation()
         #ids = range(1,5)

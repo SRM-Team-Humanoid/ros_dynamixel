@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from pynamixel.protocol1_0 import IO
+from pynamixel.protocol1_0 import Dxl_IO
 from pynamixel.ports import *
 import time
 import rospy
@@ -36,11 +36,11 @@ def start():
     raw_input("Init ?")
     dxl_io.write(dict(zip(ids,angles)))
     raw_input("Start ?")
-    rospy.Subscriber('actuation', Actuation, actuate)
+    rospy.Subscriber('/pynamixel/actuation', Actuation, actuate)
     rospy.spin()
 
 if __name__ == '__main__': 
     port = list_port()[0]
-    print(port)
-    dxl_io = IO(baudrate=1000000, port=port)
+    dxl_io = Dxl_IO(baudrate=1000000, port=port)
+    print("Connected to port: " + port)
     start()
