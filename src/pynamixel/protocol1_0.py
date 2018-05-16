@@ -104,20 +104,21 @@ class IO(object):
         return newton    
 
     def get_fsr(self, foot):
-        id_dic = {'left':112,'right':111}
+        id_dic = {'left':111,'right':112}
         id = id_dic[foot]
-        fsr_reading = {'1':0, '2':0, '3':0, '4':0, 'x':0, 'y':0}
+        #fsr_reading = {'1':0, '2':0, '3':0, '4':0, 'x':0, 'y':0}
+        fsr_reading = {}
         fsr_reg1 = {'1':ADDR_FSR_1, '2':ADDR_FSR_2, '3':ADDR_FSR_3, '4':ADDR_FSR_4}
         fsr_reg2 = {'x':ADDR_FSR_X, 'y':ADDR_FSR_Y}
         
         for reg in fsr_reg1.keys():
             fsr_reading[reg] = self.to_newton(dxl.read2ByteTxRx(self.port, self.protocol, id, fsr_reg1[reg]))
-            self.check_result()
-            self.check_error()
+            #self.check_result()
+            #self.check_error()
         for reg in fsr_reg2.keys():
             fsr_reading[reg] = dxl.read1ByteTxRx(self.port, self.protocol, id, fsr_reg2[reg])
-            self.check_result()
-            self.check_error()
+            #self.check_result()
+            #self.check_error()
         
         return fsr_reading 
     
