@@ -12,25 +12,17 @@ def publish_fsr():
     rate = rospy.Rate(10) # 10hz
     port = ports.list_port()[0]
     dxl_io = Dxl_IO(port=port, baudrate=1000000)
+    
     while not rospy.is_shutdown():
+        
         fsr_data = dxl_io.get_fsr_readings(foot='left')
-        fsr = FSR()
-        fsr.fsr1 = fsr_data['1']
-        fsr.fsr2 = fsr_data['2']
-        fsr.fsr3 = fsr_data['3']
-        fsr.fsr4 = fsr_data['4']
-        fsr.x = fsr_data['x']
-        fsr.y = fsr_data['y']
+        fsr = FSR(fsr_data['1'], fsr_data['2'], fsr_data['3'], fsr_data['4'], fsr_data['x'], fsr_data['y'])
         pub_left.publish(fsr)
+
         fsr_data = dxl_io.get_fsr_readings(foot='right')
-        fsr = FSR()
-        fsr.fsr1 = fsr_data['1']
-        fsr.fsr2 = fsr_data['2']
-        fsr.fsr3 = fsr_data['3']
-        fsr.fsr4 = fsr_data['4']
-        fsr.x = fsr_data['x']
-        fsr.y = fsr_data['y']
+        fsr = FSR(fsr_data['1'], fsr_data['2'], fsr_data['3'], fsr_data['4'], fsr_data['x'], fsr_data['y'])
         pub_right.publish(fsr)
+        
         rate.sleep()
 
 if __name__ == '__main__':

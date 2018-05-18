@@ -1,31 +1,25 @@
 #!/usr/bin/env python
 from pynamixel.protocol1_0 import Dxl_IO
-from pynamixel.ports import *
+import pynamixel.ports as ports
 import time
 import rospy
 from pynamixel.msg import Actuation
 
-#buffer = []
 
 def actuate(data):
     global dxl_io
     ids = map(int,data.ids)
     angles = data.angles
     speeds = map(int,data.speeds)
-    #rospy.loginfo(data)
     angles = list(angles)
-    #ids.extend([19])
-    #angles.extend([0.0])
     if rospy.get_param('/writer/debug') == False:
-        #print("writing")
         if len(ids) == len(angles) and len(ids) == len(speeds):
             #dxl_io.set_moving_speed(dict(zip(ids,speeds)))
-            print(dict(zip(ids,angles)))
-            dxl_io.write(dict(zip(ids,angles)))
+            dxl_io.set_goal_position(dict(zip(ids,angles)))
             #time.sleep(0.01)
-    else:
-        angles = [round(i,2) for i in angles]    
-        print(dict(zip(ids,angles)))
+    
+    angles = [round(i,2) for i in angles]    
+    rospy.loginfo(dict(zip(ids,angles)))
     
 
 def start():
@@ -34,13 +28,13 @@ def start():
     angles = [0 for id in ids]
     dxl_io.set_torque_status(ids,1)
     raw_input("Init ?")
-    dxl_io.write(dict(zip(ids,angles)))
+    dxl_io.set_goal_position(dict(zip(ids,angles)))
     raw_input("Start ?")
     rospy.Subscriber('/pynamixel/actuation', Actuation, actuate)
     rospy.spin()
 
 if __name__ == '__main__': 
-    port = list_port()[0]
+    port = ports.list_ports()[0]
     dxl_io = Dxl_IO(baudrate=1000000, port=port)
     print("Connected to port: " + port)
     start()
