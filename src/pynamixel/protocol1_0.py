@@ -10,13 +10,15 @@ os.sys.path.append('./dynamixel_functions_py')             # Path setting
 
 import dynamixel_functions as dxl
 
+
+#Daisy chain IO class for protocol 1
 class Dxl_IO(object):
     def __init__(self, baudrate = 1000000, port = '/dev/ttyUSB0', protocol = 1):
         self.baudrate = baudrate
         self.port = dxl.portHandler(port.encode('utf-8'))
         self.protocol = protocol
         self.mx_res = MX_RESOLUTION # MX-28 Resolution
-        self.fsr_res = FSR_RESOLUTION 
+        self.fsr_res = FSR_RESOLUTION #FSR Resolution
         self.groupwrite = dxl.groupSyncWrite(self.port, self.protocol, ADDR_GOAL_POS, LEN_GOAL_POSITION)
         # self.groupspeed = dxl.groupSyncWrite(self.port, self.protocol, ADDR_MOV_SPEED, LEN_MOV_SPEED)
         # self.groupread = dxl.groupSyncRead(self.port, self.protocol, ADDR_PRES_POS, LEN_PRESENT_POSITION)
@@ -34,25 +36,27 @@ class Dxl_IO(object):
         dxl.closePort(self.port)
 
     # Check for errors in the last comm
-    def check_error(self):
+    def check_error(self, id):
         error = dxl.getLastRxPacketError(self.port, self.protocol)
         if error != 0:
-            print(dxl.getRxPacketError(self.protocol, error))
+            print("[id: %d, %s]" %(id, dxl.getRxPacketError(self.protocol, error)))
             return False
+        return True
 
 
-    def check_result(self):
+    def check_result(self, id):
         comm_result = dxl.getLastTxRxResult(self.port, self.protocol)
         if comm_result != COMM_SUCCESS:
-            print(dxl.getTxRxResult(self.protocol, comm_result))
+            print("[id: %d, %s]" %(id, dxl.getTxRxResult(self.protocol, comm_result)))
             return False
+        return True
 
 
     def set_torque_status(self, ids, value):
         for id in ids:
             dxl.write1ByteTxRx(self.port, self.protocol, id, ADDR_TORQUE_ENABLE, value)
-            self.check_result()
-            self.check_error()
+            self.check_result(id)
+            self.check_error(id)
 
     def to_degree(self, value):
         angle = int(value*self.mx_res)
@@ -65,8 +69,8 @@ class Dxl_IO(object):
     def set_moving_speed(self, vel_dict):
         for id, vel in vel_dict.items():
             dxl.write2ByteTxRx(self.port, self.protocol, id, vel,  ADDR_MOV_SPEED)
-            self.check_result()
-            self.check_error()
+            self.check_result(id)
+            self.check_error(id)
 
     def is_moving(self,ids):
         mov = {}
@@ -75,7 +79,7 @@ class Dxl_IO(object):
             mov[id] = val
         return mov
 
-    def write(self, write_dict):
+    def set_goal_position(self, write_dict):
         #self.set_torque_status(write_dict.keys(),1)
         for id,angle in write_dict.items():
             angle = self.from_degree(angle+180)
@@ -84,13 +88,13 @@ class Dxl_IO(object):
 
         # Syncwrite goal position
         dxl.groupSyncWriteTxPacket(self.groupwrite)
-        self.check_result()
+        self.check_result(id)
 
         # Clear syncwrite parameter storage
         dxl.groupSyncWriteClearParam(self.groupwrite)
-        self.check_result()
+        self.check_result(id)
         
-    def read_angle(self, ids):
+    def get_present_position(self, ids):
         positions = []
         for id in ids:
             present_position = dxl.read2ByteTxRx(self.port, self.protocol, id, ADDR_PRES_POS)
@@ -113,12 +117,12 @@ class Dxl_IO(object):
         
         for reg in fsr_reg1.keys():
             fsr_reading[reg] = self.to_newton(dxl.read2ByteTxRx(self.port, self.protocol, id, fsr_reg1[reg]))
-            #self.check_result()
-            #self.check_error()
+            self.check_result(id)
+            self.check_error(id)
         for reg in fsr_reg2.keys():
             fsr_reading[reg] = dxl.read1ByteTxRx(self.port, self.protocol, id, fsr_reg2[reg])
-            #self.check_result()
-            #self.check_error()
+            self.check_result(id)
+            self.check_error(id)
         
         return fsr_reading 
     
