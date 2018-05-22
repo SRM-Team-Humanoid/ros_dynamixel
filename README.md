@@ -6,7 +6,7 @@ This is ROS Package developed by SRM Team Humanoid for controlling **ROBOTIS Dyn
 Refer to Official Robotis DynamixelSDK page [here](https://github.com/ROBOTIS-GIT/DynamixelSDK#ros-packages-for-dynamixel-sdk
 "DynamixelSDK") for installation instructions for DynamixelSDK
 
----
+
 ## How to Install
 
 Clone the ROS Package into your *catkin* workspace *src* directory and run *catkin_make*
