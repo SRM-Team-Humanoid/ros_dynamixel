@@ -19,7 +19,7 @@ Clone the ROS Package into your *catkin* workspace *src* directory and run *catk
 
 
 ## Using Pynamixel package
-To start the writer node in **debug mode**, the values are only printed and not written to the actuators, set the debug parameter *true*.
+>To start the writer node in **debug mode**, the values are only printed and not written to the actuators, set the debug parameter *true*.
 
   `rosrun pynamixel writer.py _debug:=true`
 
@@ -29,7 +29,7 @@ To start the writer node in **debug mode**, the values are only printed and not 
 
   `rosmsg info pynamixel/Actuation`
 
-fsr_reader node publishes the *left* and *right* foot FSR sensor readings into topic */pynamixel/fsr/left* and */pynamixel/fsr/right* respectively.
+>fsr_reader node publishes the *left* and *right* foot FSR sensor readings into topic */pynamixel/fsr/left* and */pynamixel/fsr/right* respectively.
 
 `rosrun pynamixel fsr_reader.py`
 
