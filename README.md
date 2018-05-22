@@ -1,6 +1,8 @@
 # Pynamixel
 This is ROS Package developed by SRM Team Humanoid for controlling **ROBOTIS Dynamixel** smart servos and **ROBOTIS FSR Sensors**.
 
+**Currently only supports Dynamixel MX series servos with protocol 1.0. Support for other motors and protocol 2.0 coming soon**
+
 **Requires Robotis Dynamixel-SDK c version installed.**
 
 Refer to Official Robotis DynamixelSDK page [here](https://github.com/ROBOTIS-GIT/DynamixelSDK#ros-packages-for-dynamixel-sdk
@@ -35,4 +37,4 @@ fsr_reader node publishes the *left* and *right* foot FSR sensor readings into t
 
 **These topics use FSR message. To learn about the FSR message format**
 
-`rosmsg info pynamixel/FSR` 
+`rosmsg info pynamixel/FSR`
