@@ -1,5 +1,5 @@
 # Pynamixel
-This is ROS Package developed by SRM Team Humanoid for controlling **ROBOTIS Dynamixel** smart servos and **ROBOTIS FSR Sensors**.
+This is a ROS Package developed by SRM Team Humanoid for controlling **ROBOTIS Dynamixel** smart servos and **ROBOTIS FSR Sensors**.
 
 **Requires Robotis Dynamixel-SDK c version installed.**
 
