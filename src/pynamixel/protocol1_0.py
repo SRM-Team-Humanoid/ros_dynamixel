@@ -6,7 +6,7 @@ from reg1_0 import *
 from ports import *
 from constants import *
 
-os.sys.path.append('./dynamixel_functions_py')             # Path setting
+#os.sys.path.append('./dynamixel_functions_py')             # Path setting
 
 import dynamixel_functions as dxl
 
@@ -85,6 +85,9 @@ class Dxl_IO(object):
             angle = self.from_degree(angle+180)
             # Add dxl goal position value to the Syncwrite storage
             addparam_result = ctypes.c_ubyte(dxl.groupSyncWriteAddParam(self.groupwrite, id, angle, LEN_GOAL_POSITION)).value
+            if addparam_result != 1:
+                print("[ID:%03d] groupSyncWrite addparam failed" % (id))
+                quit()
 
         # Syncwrite goal position
         dxl.groupSyncWriteTxPacket(self.groupwrite)
