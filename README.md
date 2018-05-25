@@ -21,15 +21,15 @@ Clone the ROS Package into your *catkin* workspace *src* directory and run *catk
 ## Using ros_dynamixel package
 * To start the writer node in **debug mode**, the values are only printed and not written to the actuators, set the debug parameter *true*.
 
-  `rosrun pynamixel writer.py _debug:=true`
+  `rosrun ros_dynamixel writer.py _debug:=true`
 
   **The writer node subscribes to topic */pynamixel/actuation* that uses Actuation message.**
 
   **To learn about the actuation message format**
 
-  `rosmsg info pynamixel/Actuation`
+  `rosmsg info ros_dynamixel/Actuation`
 
-* fsr_reader node publishes the *left* and *right* foot FSR sensor readings into topic */ros_dynamixel/fsr/left* and */ros_dynamixel/fsr/right* respectively.
+* fsr_reader node publishes the *left* and *right* foot FSR sensor readings into topic */pynamixel/fsr/left* and */pynamixel/fsr/right* respectively.
 
   `rosrun ros_dynamixel fsr_reader.py`
 
