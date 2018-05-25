@@ -1,4 +1,4 @@
-# Pynamixel
+# ros_dynamixel
 This is a ROS Package developed by SRM Team Humanoid for controlling **ROBOTIS Dynamixel** smart servos and **ROBOTIS FSR Sensors**.
 
 **Requires Robotis Dynamixel-SDK c version installed.**
@@ -13,12 +13,12 @@ Clone the ROS Package into your *catkin* workspace *src* directory and run *catk
 
   ```bash
   cd ~/catkin_ws/src/
-  git clone https://github.com/SRM-Team-Humanoid/pynamixel.git
+  git clone https://github.com/SRM-Team-Humanoid/ros_dynamixel.git
   cd .. && catkin_make
   ```
 
 
-## Using Pynamixel package
+## Using ros_dynamixel package
 * To start the writer node in **debug mode**, the values are only printed and not written to the actuators, set the debug parameter *true*.
 
   `rosrun pynamixel writer.py _debug:=true`
@@ -29,14 +29,14 @@ Clone the ROS Package into your *catkin* workspace *src* directory and run *catk
 
   `rosmsg info pynamixel/Actuation`
 
-* fsr_reader node publishes the *left* and *right* foot FSR sensor readings into topic */pynamixel/fsr/left* and */pynamixel/fsr/right* respectively.
+* fsr_reader node publishes the *left* and *right* foot FSR sensor readings into topic */ros_dynamixel/fsr/left* and */ros_dynamixel/fsr/right* respectively.
 
-  `rosrun pynamixel fsr_reader.py`
+  `rosrun ros_dynamixel fsr_reader.py`
 
   **These topics use FSR message. To learn about the FSR message format**
 
-  `rosmsg info pynamixel/FSR`
+  `rosmsg info ros_dynamixel/FSR`
 
 
 
-**Currently only supports Dynamixel MX series servos with protocol 1.0. Support for other motors and protocol 2.0 coming soon**
+**This package currently supports only Dynamixel MX series servos with protocol 1.0. Support for other motors and protocol 2.0 coming soon**
